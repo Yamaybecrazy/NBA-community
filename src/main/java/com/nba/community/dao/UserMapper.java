@@ -3,8 +3,6 @@ package com.nba.community.dao;
 import com.nba.community.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
-import javax.annotation.Resource;
-
 @Mapper
 public interface UserMapper {
 
