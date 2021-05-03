@@ -2,6 +2,13 @@ $(function(){
 	$("#publishBtn").click(publish);
 });
 
+// 发送AJAX请求之前,将CSRF令牌设置到请求的消息头中.
+//    var token = $("meta[name='_csrf']").attr("content");
+//    var header = $("meta[name='_csrf_header']").attr("content");
+//    $(document).ajaxSend(function(e, xhr, options){
+//        xhr.setRequestHeader(header, token);
+//    });
+
 function publish() {
 	$("#publishModal").modal("hide");
 
@@ -14,13 +21,13 @@ function publish() {
 		{"title":title,"content":content},
 		function (data) {
 			data = $.parseJSON(data);
-		//	在提示框中显示返回消息
+			//	在提示框中显示返回消息
 			$("#hintBody").text(data.msg);
 			//显示提示框后自动隐藏提示框
 			$("#hintModal").modal("show");
 			setTimeout(function(){
 				$("#hintModal").modal("hide");
-			//	刷新页面
+				//	刷新页面
 				if(data.code == 0){
 					window.location.reload();
 				}
