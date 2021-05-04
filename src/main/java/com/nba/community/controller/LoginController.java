@@ -108,7 +108,7 @@ public class LoginController implements CommunityConstant {
         String redisKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
         redisTemplate.opsForValue().set(redisKey, text, 60, TimeUnit.SECONDS);
 
-        // 将突图片输出给浏览器
+        // 将图片输出给浏览器
         response.setContentType("image/png");
         try {
             OutputStream os = response.getOutputStream();
@@ -120,10 +120,8 @@ public class LoginController implements CommunityConstant {
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public String login(String username, String password, String code, boolean rememberme,
-                        Model model, /*HttpSession session, */HttpServletResponse response,
+                        Model model,HttpServletResponse response,
                         @CookieValue("kaptchaOwner") String kaptchaOwner) {
-        // 检查验证码
-        // String kaptcha = (String) session.getAttribute("kaptcha");
         String kaptcha = null;
         if (StringUtils.isNotBlank(kaptchaOwner)) {
             String redisKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);

@@ -35,6 +35,8 @@ public class MailTests {
         System.out.println(content);
 
         mailClient.sendMail("1044375716@qq.com", "HTML", content);
+
+
     }
 
 }

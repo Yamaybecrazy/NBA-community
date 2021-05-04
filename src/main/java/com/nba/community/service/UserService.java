@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -201,6 +203,58 @@ public class UserService implements CommunityConstant {
     public User findUserByName(String username){
         return userMapper.selectByName(username);
     }
+
+    public User findUserByEmail(String email){
+        return userMapper.selectByEmail(email);
+    }
+
+//    忘记密码
+    public Map<String, Object> forget(String email, String password){
+        Map<String, Object> map = new HashMap<>();
+
+        // 空值处理
+        if (StringUtils.isBlank(password)) {
+            map.put("passwordMsg", "密码不能为空!");
+            return map;
+        }
+
+        // 验证邮箱
+        User u = userMapper.selectByEmail(email);
+        password = CommunityUtil.md5(password+u.getSalt());
+        userMapper.updatePassword(u.getId(),password);
+        map.put("success","success");
+        clearCache(u.getId());
+        return map;
+
+    }
+
+//    发送验证码
+    public void sendCode(String email, HttpServletResponse response){
+//        设置验证码
+        String text = CommunityUtil.generateUUID().substring(0,6);
+        String codeOwner = CommunityUtil.generateUUID();
+        Cookie cookie = new Cookie("codeOwner",codeOwner);
+        cookie.setMaxAge(60*5);
+        cookie.setPath(contextPath);
+        response.addCookie(cookie);
+//        存入redis
+        String redisKey = RedisKeyUtil.getCodeKey(codeOwner);
+        redisTemplate.opsForValue().set(redisKey, text, 60*5, TimeUnit.SECONDS);
+//        发送邮件
+        Context context = new Context();
+        context.setVariable("email", email);
+        context.setVariable("text", text);
+        String content = templateEngine.process("/mail/forget", context);
+        mailClient.sendMail(email, "忘记密码", content);
+
+    }
+
+
+
+
+
+
+
 
 //    优先从缓存中取值
     private User getCache(int userId){

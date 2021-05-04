@@ -4,6 +4,7 @@ import com.nba.community.dao.CommentMapper;
 import com.nba.community.entity.Comment;
 import com.nba.community.util.CommunityConstant;
 import com.nba.community.util.SensitiveFilter;
+import org.elasticsearch.common.recycler.Recycler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -58,6 +59,17 @@ public class CommentService implements CommunityConstant {
         return commentMapper.selectCommentById(id);
         }
 
+    public int findCommentCountById(int id) {
+        return commentMapper.selectCommentCountById(id);
+    }
+
+    public List<Comment> findCommentsByUserId(int id,int offset,int limit) {
+        return commentMapper.selectCommentsByUserId(id,offset,limit);
+    }
+
+    public int updateStatus(int entityId, int status) {
+        return commentMapper.updateStatus(entityId,status);
+    }
 
 
 }
