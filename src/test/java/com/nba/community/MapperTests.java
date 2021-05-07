@@ -66,15 +66,15 @@ public class MapperTests {
 
     @Test
     public void updateUser() {
-        int rows = userMapper.updateStatus(150, 1);
+        int rows = userMapper.updateUsername(21, "master1");
         System.out.println(rows);
-
-        rows = userMapper.updateHeader(150, "http://www.nowcoder.com/102.png");
-        System.out.println(rows);
-
-        rows = userMapper.updatePassword(150, "hello");
-        System.out.println(rows);
-    }
+//
+//        rows = userMapper.updateHeader(150, "http://www.nowcoder.com/102.png");
+//        System.out.println(rows);
+//
+//        rows = userMapper.updatePassword(150, "hello");
+//        System.out.println(rows);
+//    }
 
 //    @Test
 //    public  void testSelectPosts(){
@@ -84,7 +84,7 @@ public class MapperTests {
 //        }
 //        int rows = discussPostMapper.selectDiscussPostRows(149);
 //        System.out.println(rows);
-//    }
+  }
 
     @Test
     public void testInsertLoginTicket() {

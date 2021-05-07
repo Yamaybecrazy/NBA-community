@@ -1,6 +1,5 @@
 package com.nba.community.config;
 
-import com.nba.community.quartz.AlphaJob;
 import com.nba.community.quartz.PostScoreRefreshJob;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -21,27 +20,6 @@ public class QuartzConfig {
 
     // 配置JobDetail
     // @Bean
-    public JobDetailFactoryBean alphaJobDetail() {
-        JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
-        factoryBean.setJobClass(AlphaJob.class);
-        factoryBean.setName("alphaJob");
-        factoryBean.setGroup("alphaJobGroup");
-        factoryBean.setDurability(true);
-        factoryBean.setRequestsRecovery(true);
-        return factoryBean;
-    }
-
-    // 配置Trigger(SimpleTriggerFactoryBean, CronTriggerFactoryBean)
-    // @Bean
-    public SimpleTriggerFactoryBean alphaTrigger(JobDetail alphaJobDetail) {
-        SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
-        factoryBean.setJobDetail(alphaJobDetail);
-        factoryBean.setName("alphaTrigger");
-        factoryBean.setGroup("alphaTriggerGroup");
-        factoryBean.setRepeatInterval(3000);
-        factoryBean.setJobDataMap(new JobDataMap());
-        return factoryBean;
-    }
 
     // 刷新帖子分数任务
     @Bean

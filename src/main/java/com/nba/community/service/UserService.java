@@ -249,13 +249,6 @@ public class UserService implements CommunityConstant {
 
     }
 
-
-
-
-
-
-
-
 //    优先从缓存中取值
     private User getCache(int userId){
         String redisKey = RedisKeyUtil.getUserKey(userId);
